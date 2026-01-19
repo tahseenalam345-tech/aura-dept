@@ -1,6 +1,5 @@
 import { motion } from 'motion/react';
 import { ArrowRight, MessageCircle } from 'lucide-react';
-import Image from 'next/image';
 
 export function Hero() {
   return (
@@ -8,25 +7,21 @@ export function Hero() {
       
       {/* --- BACKGROUND START --- */}
       <div className="absolute inset-0 z-0">
-        {/* 1. This puts the Wave Image in the background.
-           Make sure you have a file named 'waves-bg.png' in your 'public' folder. 
-           You can change opacity-50 to make it brighter or darker.
+        {/* Since this is Vite, we use a standard <img> tag.
+            Make sure 'waves-bg.png' is inside your 'public' folder.
         */}
         <div className="absolute inset-0 opacity-60 mix-blend-screen">
-            {/* If you don't have the image yet, this div below acts as a placeholder 
-              with a subtle gradient so it's not pitch black. 
-            */}
-           <Image 
+           <img 
               src="/waves-bg.png" 
               alt="Background Waves" 
-              fill
-              className="object-cover"
-              priority
+              className="w-full h-full object-cover"
            />
         </div>
 
-        {/* Optional: We keep a subtle purple glow behind the text to make it pop, 
-            even with the image. */}
+        {/* Gradient Overlay: 
+            This adds a fade at the bottom so the image blends 
+            into your dark background color seamlessly. 
+        */}
         <div className="absolute inset-0 bg-gradient-radial from-transparent via-[#020617]/50 to-[#020617]" />
       </div>
       {/* --- BACKGROUND END --- */}
