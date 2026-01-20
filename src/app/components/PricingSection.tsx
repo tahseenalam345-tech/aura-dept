@@ -1,160 +1,253 @@
-import { motion } from 'motion/react';
-import { Check, Star } from 'lucide-react';
+"use client";
 
-interface PricingPlan {
-  name: string;
-  price: string;
-  description: string;
-  features: string[];
-  highlighted?: boolean;
-  cta: string;
-}
+import { useState } from 'react';
+import { motion, AnimatePresence } from 'motion/react';
+import { Check, ChevronDown, Smartphone, Megaphone, Server } from 'lucide-react';
 
-const plans: PricingPlan[] = [
+// --- PLANS DATA ---
+const plans = [
   {
-    name: 'Starter',
-    price: '$2,999',
-    description: 'Perfect for startups and small businesses',
+    name: "Spark",
+    price: "40,000",
+    period: "PKR",
+    description: "Perfect for startups & personal portfolios.",
+    color: "cyan",
     features: [
-      '5-page responsive website',
-      'Basic SEO optimization',
-      'Mobile-friendly design',
-      '1 month support',
-      'Stock images included',
-    ],
-    cta: 'Get Started',
+      "1-5 Pages Static Website",
+      "Mobile & Desktop Friendly",
+      "Admin Panel (Limited)",
+      "Contact Form Integration",
+      "Free Hosting & SSL",
+      "1 Month Support"
+    ]
   },
   {
-    name: 'Business',
-    price: '$7,999',
-    description: 'Ideal for growing companies',
+    name: "Nexus",
+    price: "80,000",
+    period: "PKR",
+    description: "Growth engine for modern businesses.",
+    color: "purple",
+    popular: true, 
     features: [
-      'Custom web application',
-      'Advanced SEO & Analytics',
-      'CMS integration',
-      '3 months support',
-      'Custom illustrations',
-      'Performance optimization',
-      'A/B testing setup',
-    ],
-    highlighted: true,
-    cta: 'Most Popular',
+      "Up to 10 Pages Dynamic Site",
+      "Custom Modern Design",
+      "Full Admin Panel (Edit All)",
+      "Free Database Integration",
+      "WhatsApp Button Included",
+      "3 Months Support"
+    ]
   },
   {
-    name: 'Enterprise',
-    price: 'Custom',
-    description: 'Tailored solutions for large organizations',
+    name: "Infinity",
+    price: "120,000",
+    period: "PKR",
+    description: "Complete digital empire with no limits.",
+    color: "pink",
     features: [
-      'Full-stack development',
-      'Dedicated team',
-      'Unlimited revisions',
-      '12 months support',
-      'White-label solutions',
-      'Advanced integrations',
-      'Priority support',
-    ],
-    cta: 'Contact Sales',
-  },
+      "Full 3D / WebGL Website",
+      "Complex Web App System",
+      "User Login & Dashboard",
+      "Real-time Database",
+      "Domain Included (1 Year)",
+      "6 Months Priority Support"
+    ]
+  }
 ];
 
-export function PricingSection() {
-  return (
-    <section id="pricing" className="relative py-24 bg-gradient-to-b from-black to-[#020617]">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Section Title */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-16"
-        >
-          <h2 className="text-4xl md:text-5xl text-white mb-4">
-            Choose Your{' '}
-            <span className="bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent">
-              Plan
-            </span>
-          </h2>
-          <p className="text-gray-400 max-w-2xl mx-auto">
-            Transparent pricing with no hidden fees. Select the plan that fits your needs.
-          </p>
-        </motion.div>
+const addons = [
+  {
+    category: "Mobile Apps",
+    icon: Smartphone,
+    items: [
+      { name: "PlayStore App (WebView)", price: "5,000 PKR", type: "One Time" },
+      { name: "iOS App (Apple Store)", price: "25,000 PKR", type: "Per Year" }
+    ]
+  },
+  {
+    category: "Digital Marketing",
+    icon: Megaphone,
+    items: [
+      { name: "Starter Ads (3 Ads)", price: "10,000 PKR", type: "Monthly" },
+      { name: "Growth Ads (6 Ads)", price: "15,000 PKR", type: "Monthly" },
+      { name: "Pro Ads (9 Ads)", price: "20,000 PKR", type: "Monthly" }
+    ]
+  },
+  {
+    category: "Tech Essentials",
+    icon: Server,
+    items: [
+      { name: "Custom Domain (.com)", price: "5,000 PKR", type: "Per Year" },
+      { name: "Dedicated Database", price: "5,000 PKR", type: "Per Month" }
+    ]
+  }
+];
 
-        {/* Pricing Cards */}
-        <div className="grid md:grid-cols-3 gap-8 items-center">
+// STYLE CONFIGURATION
+const colorStyles: any = {
+  cyan: {
+    cardBorder: "border-cyan-500",
+    glow: "shadow-[0_0_40px_-10px_rgba(6,182,212,0.6)]",
+    button: "bg-cyan-500 text-black hover:bg-cyan-400 hover:shadow-[0_0_20px_rgba(6,182,212,0.6)]",
+    text: "text-cyan-400"
+  },
+  purple: {
+    cardBorder: "border-purple-500",
+    glow: "shadow-[0_0_40px_-10px_rgba(168,85,247,0.6)]",
+    button: "bg-purple-600 text-white hover:bg-purple-500 hover:shadow-[0_0_20px_rgba(168,85,247,0.6)]",
+    text: "text-purple-400"
+  },
+  pink: {
+    cardBorder: "border-pink-500",
+    glow: "shadow-[0_0_40px_-10px_rgba(236,72,153,0.6)]",
+    button: "bg-pink-600 text-white hover:bg-pink-500 hover:shadow-[0_0_20px_rgba(236,72,153,0.6)]",
+    text: "text-pink-400"
+  }
+};
+
+export function PricingSection() {
+  const [showAddons, setShowAddons] = useState(false);
+
+  // --- SMART SCROLL FUNCTION ---
+  const handleSelectPlan = (planName: string) => {
+    // 1. Dispatch a custom event that the Contact Form will listen to
+    const event = new CustomEvent('planSelected', { detail: planName });
+    window.dispatchEvent(event);
+
+    // 2. Smooth Scroll to Contact Section
+    const contactSection = document.getElementById('contact');
+    if (contactSection) {
+      contactSection.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
+  return (
+    <section id="pricing" className="relative py-24 bg-[#020617] overflow-hidden">
+      
+      {/* BACKGROUND EFFECTS */}
+      <div className="absolute inset-0 z-0">
+          <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-10"></div>
+          <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-[#020617] via-transparent to-[#020617] z-10"></div>
+          <div className="absolute top-[20%] left-[20%] w-[500px] h-[500px] bg-purple-600/20 rounded-full blur-[120px] pointer-events-none" />
+          <div className="absolute bottom-[20%] right-[20%] w-[500px] h-[500px] bg-cyan-600/20 rounded-full blur-[120px] pointer-events-none" />
+      </div>
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        
+        {/* HEADER */}
+        <div className="text-center mb-16">
+          <p className="text-xs font-bold tracking-[0.2em] text-cyan-400 uppercase mb-2 animate-pulse">
+            INVEST IN YOUR FUTURE
+          </p>
+          <h2 className="text-4xl md:text-6xl font-extrabold text-white tracking-tight">
+            Transparent Pricing
+          </h2>
+        </div>
+
+        {/* --- PRICING CARDS --- */}
+        <div className="grid md:grid-cols-3 gap-8 mb-16 px-4 md:px-8">
           {plans.map((plan, index) => (
-            <PricingCard key={plan.name} plan={plan} index={index} />
+            <motion.div
+              key={index}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: index * 0.1, duration: 0.5 }}
+              
+              className={`relative rounded-[1.5rem] p-6 border-2 bg-[#0B1221] flex flex-col items-center text-center h-auto
+                ${colorStyles[plan.color].cardBorder} ${colorStyles[plan.color].glow}
+              `}
+            >
+              <h3 className="text-2xl font-bold text-white mb-2 uppercase tracking-wide">
+                {plan.name}
+              </h3>
+              
+              <div className="flex items-baseline justify-center gap-1 mb-4">
+                <span className="text-3xl font-extrabold text-white">{plan.price}</span>
+                <span className="text-sm font-bold text-gray-500">{plan.period}</span>
+              </div>
+
+              <div className={`w-12 h-1 rounded-full mb-6 ${plan.color === 'cyan' ? 'bg-cyan-500' : plan.color === 'purple' ? 'bg-purple-500' : 'bg-pink-500'}`} />
+
+              <ul className="space-y-3 mb-8 w-full">
+                {plan.features.map((feature, i) => (
+                  <li key={i} className="flex items-center justify-center gap-2 text-sm text-gray-300 font-medium">
+                    <Check className={`w-4 h-4 ${colorStyles[plan.color].text}`} />
+                    {feature}
+                  </li>
+                ))}
+              </ul>
+
+              {/* SMART BUTTON (No Refresh) */}
+              <button
+                onClick={() => handleSelectPlan(plan.name)}
+                className={`w-full py-3 rounded-xl font-bold text-sm tracking-wider uppercase transition-all duration-300 transform hover:scale-105 shadow-lg block
+                  ${colorStyles[plan.color].button}
+                `}
+              >
+                 Choose {plan.name}
+              </button>
+
+            </motion.div>
           ))}
+        </div>
+
+        {/* --- CUSTOM ADD-ONS TOGGLE --- */}
+        <div className="max-w-4xl mx-auto">
+          <button
+            onClick={() => setShowAddons(!showAddons)}
+            className="w-full group relative rounded-2xl bg-[#0B1221] border border-white/10 p-6 flex flex-col md:flex-row items-center justify-between gap-4 hover:border-cyan-500/50 transition-all cursor-pointer overflow-hidden shadow-2xl"
+          >
+             <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/10 to-purple-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+             <div className="flex items-center gap-4 relative z-10">
+               <div className="p-3 rounded-full bg-cyan-900/30 text-cyan-400">
+                 <Server className="w-6 h-6" />
+               </div>
+               <div className="text-left">
+                 <h4 className="text-lg font-bold text-white">Need Custom Add-ons?</h4>
+                 <p className="text-sm text-gray-400">Apps, Marketing Ads & Tech Essentials</p>
+               </div>
+             </div>
+             <div className={`flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-cyan-400 relative z-10 transition-transform duration-300 ${showAddons ? "" : "group-hover:translate-x-2"}`}>
+               <span>{showAddons ? "Close Menu" : "View Add-on Menu"}</span>
+               <ChevronDown className={`w-4 h-4 transition-transform duration-500 ${showAddons ? "rotate-180" : ""}`} />
+             </div>
+          </button>
+
+          <AnimatePresence>
+            {showAddons && (
+              <motion.div
+                initial={{ height: 0, opacity: 0 }}
+                animate={{ height: "auto", opacity: 1 }}
+                exit={{ height: 0, opacity: 0 }}
+                className="overflow-hidden"
+              >
+                <div className="grid md:grid-cols-3 gap-4 pt-4">
+                  {addons.map((category, idx) => (
+                    <div key={idx} className="bg-[#0F172A]/80 border border-white/5 rounded-2xl p-6 hover:border-white/10 transition-colors">
+                      <div className="flex items-center gap-3 mb-4">
+                        <category.icon className="w-5 h-5 text-gray-400" />
+                        <h5 className="text-sm font-bold text-white uppercase tracking-wider">{category.category}</h5>
+                      </div>
+                      <ul className="space-y-3">
+                        {category.items.map((item, i) => (
+                          <li key={i} className="flex justify-between items-center text-sm border-b border-white/5 pb-2 last:border-0 last:pb-0">
+                            <span className="text-gray-300">{item.name}</span>
+                            <div className="text-right">
+                              <span className="block font-bold text-cyan-400">{item.price}</span>
+                              {item.type && <span className="text-[10px] text-gray-500 uppercase">{item.type}</span>}
+                            </div>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  ))}
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+
         </div>
       </div>
     </section>
-  );
-}
-
-interface PricingCardProps {
-  plan: PricingPlan;
-  index: number;
-}
-
-function PricingCard({ plan, index }: PricingCardProps) {
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 30 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ delay: index * 0.15, duration: 0.6 }}
-      whileHover={{ y: -8, scale: plan.highlighted ? 1.05 : 1 }}
-      className={`relative p-8 rounded-2xl backdrop-blur-lg transition-all duration-300 ${
-        plan.highlighted
-          ? 'bg-gradient-to-br from-purple-600/20 to-blue-600/20 border-2 border-purple-500 md:scale-105'
-          : 'bg-white/5 border border-white/10 hover:border-white/20'
-      }`}
-    >
-      {/* Popular Badge */}
-      {plan.highlighted && (
-        <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
-          <div className="flex items-center gap-1 px-4 py-1 bg-gradient-to-r from-purple-600 to-blue-600 text-white text-sm rounded-full">
-            <Star className="w-3 h-3 fill-white" />
-            <span>Most Popular</span>
-          </div>
-        </div>
-      )}
-
-      {/* Plan Name */}
-      <h3 className="text-2xl text-white mb-2">{plan.name}</h3>
-
-      {/* Description */}
-      <p className="text-gray-400 text-sm mb-6">{plan.description}</p>
-
-      {/* Price */}
-      <div className="mb-8">
-        <span className="text-5xl text-white">{plan.price}</span>
-        {plan.price !== 'Custom' && <span className="text-gray-400 ml-2">/ project</span>}
-      </div>
-
-      {/* Features */}
-      <ul className="space-y-4 mb-8">
-        {plan.features.map((feature) => (
-          <li key={feature} className="flex items-start gap-3 text-gray-300">
-            <Check className="w-5 h-5 text-purple-400 flex-shrink-0 mt-0.5" />
-            <span>{feature}</span>
-          </li>
-        ))}
-      </ul>
-
-      {/* CTA Button */}
-      <a
-        href="https://wa.me/923369871278"
-        target="_blank"
-        rel="noopener noreferrer"
-        className={`block w-full py-3 text-center rounded-lg transition-all ${
-          plan.highlighted
-            ? 'bg-gradient-to-r from-purple-600 to-blue-600 text-white hover:from-purple-500 hover:to-blue-500'
-            : 'bg-white/10 text-white hover:bg-white/20 border border-white/20'
-        }`}
-      >
-        {plan.cta}
-      </a>
-    </motion.div>
   );
 }

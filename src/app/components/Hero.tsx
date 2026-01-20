@@ -63,7 +63,7 @@ export function Hero() {
         <div className="absolute inset-0 opacity-60 mix-blend-screen">
            {/* UPDATED: Points to .png now */}
            <img 
-              src="/waves-bg.png" 
+              src="/waves-bg.jpg" 
               alt="Background Waves" 
               className="w-full h-full object-cover"
               onError={(e) => { e.currentTarget.style.display = 'none'; }}

@@ -6,6 +6,7 @@ import { FoundersSection } from '@/app/components/FoundersSection';
 import { ServicesSection } from '@/app/components/ServicesSection';
 import { PortfolioSection } from '@/app/components/PortfolioSection';
 import { PricingSection } from '@/app/components/PricingSection';
+import { ContactSection } from '@/app/components/ContactSection'; // 👈 ADDED IMPORT
 import { Footer } from '@/app/components/Footer';
 
 export default function App() {
@@ -47,6 +48,9 @@ export default function App() {
             <ServicesSection />
             <PortfolioSection />
             <PricingSection />
+            
+            {/* 👇 ADDED CONTACT SECTION HERE */}
+            <ContactSection /> 
           </main>
           <Footer />
         </>

@@ -31,7 +31,11 @@ export function Navbar({ isVisible }: NavbarProps) {
         initial={{ y: -100, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.6, ease: 'easeOut' }}
-        className="fixed top-0 left-0 right-0 z-40 backdrop-blur-md bg-black/50 border-b border-white/10"
+        // UPDATED:
+        // 'bg-black/5' -> Almost invisible tint
+        // 'backdrop-blur-sm' -> Very slight blur effect
+        // 'border-white/5' -> Extremely faint line at the bottom
+        className="fixed top-0 left-0 right-0 z-40 bg-black/5 backdrop-blur-sm border-b border-white/5"
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
@@ -97,11 +101,6 @@ export function Navbar({ isVisible }: NavbarProps) {
       <AnimatePresence>
         {mobileMenuOpen && (
           <>
-            {/* 1. THE BACKDROP (Overlay) 
-                - Covers the whole screen.
-                - 'backdrop-blur-sm': Light blur so you see colors.
-                - clicking this closes the menu.
-            */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -110,11 +109,6 @@ export function Navbar({ isVisible }: NavbarProps) {
               className="fixed inset-0 z-50 bg-black/20 backdrop-blur-sm md:hidden"
             />
 
-            {/* 2. THE SIDEBAR (Drawer)
-                - Slides in from right (x: '100%' -> 0).
-                - 'w-3/4': Width is 75% of screen.
-                - 'bg-blue-950/80': Dark blue glass tint.
-            */}
             <motion.div
               initial={{ x: '100%' }}
               animate={{ x: 0 }}
@@ -122,7 +116,6 @@ export function Navbar({ isVisible }: NavbarProps) {
               transition={{ type: 'spring', damping: 25, stiffness: 200 }}
               className="fixed top-0 right-0 bottom-0 z-[60] w-3/4 max-w-sm bg-blue-950/80 border-l border-white/10 shadow-2xl md:hidden flex flex-col"
             >
-              {/* Close Button Header */}
               <div className="flex justify-end p-4">
                 <button
                   onClick={() => setMobileMenuOpen(false)}
@@ -132,7 +125,6 @@ export function Navbar({ isVisible }: NavbarProps) {
                 </button>
               </div>
 
-              {/* Menu Links */}
               <div className="flex flex-col items-center justify-center flex-1 space-y-8 pb-20">
                 {navLinks.map((link) => (
                   <a

@@ -1,116 +1,151 @@
 import { motion } from 'motion/react';
-import { ImageWithFallback } from '@/app/components/figma/ImageWithFallback';
+import { Rocket, Palette, Laptop, Handshake } from 'lucide-react';
 
-interface Founder {
-  name: string;
-  title: string;
-  quote: string;
-  skills: string[];
-  image: string;
-}
-
-const founders: Founder[] = [
-  {
-    name: 'Tahseen Alam',
-    title: 'Tech Lead & Co-Founder',
-    quote: 'Innovation is not just about technology—it\'s about creating experiences that resonate.',
-    skills: ['Full Stack', 'AI/ML', 'Cloud Architecture'],
-    image: 'https://images.unsplash.com/photo-1752859951149-7d3fc700a7ec?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx0ZWNoJTIwZGV2ZWxvcGVyJTIwcG9ydHJhaXR8ZW58MXx8fHwxNzY4ODI0NDAwfDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
-  },
-  {
-    name: 'Sarah Chen',
-    title: 'Strategy Director & Co-Founder',
-    quote: 'Great brands are built on clarity of vision and the courage to stand out.',
-    skills: ['Brand Strategy', 'Growth Marketing', 'UX Design'],
-    image: 'https://images.unsplash.com/photo-1610631066894-62452ccb927c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxwcm9mZXNzaW9uYWwlMjBjZW8lMjBwb3J0cmFpdHxlbnwxfHx8fDE3Njg4MTgyNTF8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
-  },
-];
-
-export function FoundersSection() {
-  return (
-    <section id="founders" className="relative py-24 bg-[#020617]">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Section Title */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-16"
-        >
-          <h2 className="text-4xl md:text-5xl text-white mb-4">
-            The{' '}
-            <span className="bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent">
-              Visionaries
-            </span>
-          </h2>
-          <div className="w-20 h-1 bg-gradient-to-r from-purple-500 to-blue-500 mx-auto rounded-full" />
-        </motion.div>
-
-        {/* Founders Grid */}
-        <div className="grid md:grid-cols-2 gap-8">
-          {founders.map((founder, index) => (
-            <FounderCard key={founder.name} founder={founder} index={index} />
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-interface FounderCardProps {
-  founder: Founder;
-  index: number;
-}
-
-function FounderCard({ founder, index }: FounderCardProps) {
+// --- FOUNDER CARD COMPONENT (Unchanged) ---
+const FounderCard = ({ name, role, quote, image, tags, color, glowColor, delay }: any) => {
   return (
     <motion.div
       initial={{ opacity: 0, y: 30 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
-      transition={{ delay: index * 0.2, duration: 0.6 }}
-      whileHover={{ y: -8 }}
-      className="group relative p-8 bg-white/5 backdrop-blur-lg rounded-2xl border border-white/10 hover:border-purple-500/50 transition-all duration-300"
+      transition={{ duration: 0.8, delay }}
+      className="group relative h-full"
     >
-      {/* Glow Effect on Hover */}
-      <div className="absolute inset-0 bg-gradient-to-br from-purple-500/0 to-blue-500/0 group-hover:from-purple-500/10 group-hover:to-blue-500/10 rounded-2xl transition-all duration-300" />
+      {/* CARD CONTAINER */}
+      <div className="relative h-full bg-[#0B1221] border border-white/5 rounded-[2rem] p-8 overflow-hidden transition-all duration-500 hover:border-white/20 hover:shadow-2xl hover:shadow-black/50">
+        
+        {/* GLASS SHINE EFFECT */}
+        <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full group-hover:animate-shine z-0 pointer-events-none" />
 
-      <div className="relative z-10">
-        {/* Image */}
-        <div className="mb-6 flex justify-center">
-          <div className="relative w-32 h-32 rounded-full overflow-hidden ring-4 ring-purple-500/20 group-hover:ring-purple-500/50 transition-all">
-            <ImageWithFallback
-              src={founder.image}
-              alt={founder.name}
-              className="w-full h-full object-cover"
-            />
+        <div className="relative z-10 flex flex-col sm:flex-row items-center sm:items-start gap-6 text-center sm:text-left">
+          
+          {/* PROFILE PICTURE */}
+          <div className="relative flex-shrink-0 mt-4">
+            <div className={`absolute inset-0 rounded-full blur-2xl opacity-40 group-hover:opacity-100 transition-opacity duration-500 scale-150 translate-y-2 ${glowColor}`} />
+            
+            <div className="relative w-32 h-32 translate-y-2 rounded-full overflow-hidden border-2 border-white/10 group-hover:border-white/50 transition-colors duration-500 bg-black">
+               <img 
+                 src={image} 
+                 alt={name} 
+                 className="w-full h-full object-cover object-top transform transition-transform duration-700 group-hover:scale-110"
+               />
+            </div>
           </div>
-        </div>
 
-        {/* Name & Title */}
-        <div className="text-center mb-4">
-          <h3 className="text-2xl text-white mb-1">{founder.name}</h3>
-          <p className="text-purple-400">{founder.title}</p>
-        </div>
-
-        {/* Quote */}
-        <p className="text-gray-400 italic text-center mb-6 leading-relaxed">
-          "{founder.quote}"
-        </p>
-
-        {/* Skills */}
-        <div className="flex flex-wrap gap-2 justify-center">
-          {founder.skills.map((skill) => (
-            <span
-              key={skill}
-              className="px-3 py-1 bg-purple-500/10 text-purple-300 text-sm rounded-full border border-purple-500/20"
-            >
-              {skill}
-            </span>
-          ))}
+          {/* TEXT CONTENT */}
+          <div className="flex-1 space-y-3">
+            <div>
+              <h3 className="text-2xl font-bold text-white">{name}</h3>
+              <p className={`text-sm font-bold tracking-wide ${color}`}>{role}</p>
+            </div>
+            <p className="text-gray-400 text-sm leading-relaxed border-l-2 border-white/10 pl-4 italic">"{quote}"</p>
+            <div className="flex flex-wrap justify-center sm:justify-start gap-2 pt-2">
+              {tags.map((tag: string, i: number) => (
+                <span key={i} className="px-3 py-1 text-[10px] uppercase tracking-wider font-semibold text-gray-300 bg-white/5 rounded-full border border-white/5 group-hover:bg-white/10 transition-colors">
+                  {tag}
+                </span>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
     </motion.div>
+  );
+};
+
+export function FoundersSection() {
+  const founders = [
+    {
+      name: "Muhammad Tahseen Alam",
+      role: "Co-Founder & Lead Developer",
+      quote: "Code is poetry that performs. I architect robust, scalable systems where visuals are backed by rock-solid technology.",
+      image: "/tahseenpic.png", 
+      tags: ["Full Stack", "System Arch", "Next.js"],
+      color: "text-cyan-400",    
+      glowColor: "bg-cyan-500",  
+    },
+    {
+      name: "Saad Hameed",
+      role: "Co-Founder & Creative Director",
+      quote: "Design is the silent ambassador of your brand. I specialize in brand identity and immersive UI experiences.",
+      image: "/saadpic.png",    
+      tags: ["UI/UX", "Strategy", "Visuals"],
+      color: "text-purple-400",   
+      glowColor: "bg-purple-500", 
+    },
+  ];
+
+  return (
+    <section id="founders" className="relative py-24 bg-[#020617] overflow-hidden">
+      
+      {/* --- VIBRANT BACKGROUND (Cyberpunk Glows) --- */}
+      <div className="absolute top-1/2 left-0 -translate-y-1/2 -translate-x-1/4 w-[800px] h-[800px] bg-cyan-500/20 rounded-full blur-[120px] mix-blend-screen pointer-events-none" />
+      <div className="absolute top-1/2 right-0 -translate-y-1/2 translate-x-1/4 w-[800px] h-[800px] bg-purple-600/20 rounded-full blur-[120px] mix-blend-screen pointer-events-none" />
+      <div className="absolute inset-0 bg-[#020617]/40 pointer-events-none" />
+
+
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        
+        {/* HEADER */}
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="text-center mb-20 space-y-4"
+        >
+          <h2 className="text-4xl md:text-5xl font-bold text-white tracking-tight">
+            The Visionaries
+          </h2>
+          <div className="w-24 h-1.5 bg-gradient-to-r from-cyan-500 to-purple-600 mx-auto rounded-full shadow-[0_0_15px_rgba(168,85,247,0.5)]" />
+          <p className="text-gray-400 text-lg max-w-2xl mx-auto">
+            The minds behind the aura. Merging strategy with code to redefine digital boundaries.
+          </p>
+        </motion.div>
+
+        {/* CARDS GRID */}
+        <div className="grid md:grid-cols-2 gap-8 mb-20">
+          {founders.map((founder, index) => (
+            <FounderCard 
+              key={index} 
+              {...founder} 
+              delay={index * 0.2} 
+            />
+          ))}
+        </div>
+
+        {/* --- BOTTOM TAGS STRIP (Updated) --- */}
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="flex flex-wrap justify-center gap-8 md:gap-16 border-t border-white/5 pt-12 opacity-80"
+        >
+          {/* 1. Modern Digital Agency */}
+          <div className="flex items-center gap-3 text-white font-semibold hover:text-cyan-400 transition-colors cursor-default">
+            <Rocket className="w-6 h-6 text-purple-500" />
+            <span>Modern Digital Agency</span>
+          </div>
+          
+          {/* 2. UI/UX & Visual Design */}
+          <div className="flex items-center gap-3 text-white font-semibold hover:text-pink-400 transition-colors cursor-default">
+            <Palette className="w-6 h-6 text-pink-500" />
+            <span>UI/UX & Visual Design</span>
+          </div>
+          
+          {/* 3. Full-Stack Development */}
+          <div className="flex items-center gap-3 text-white font-semibold hover:text-blue-400 transition-colors cursor-default">
+            <Laptop className="w-6 h-6 text-blue-500" />
+            <span>Full-Stack Development</span>
+          </div>
+          
+          {/* 4. Client-Focused Approach */}
+          <div className="flex items-center gap-3 text-white font-semibold hover:text-green-400 transition-colors cursor-default">
+            <Handshake className="w-6 h-6 text-green-500" />
+            <span>Client-Focused Approach</span>
+          </div>
+        </motion.div>
+
+      </div>
+    </section>
   );
 }

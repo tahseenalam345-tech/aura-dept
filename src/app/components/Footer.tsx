@@ -1,143 +1,109 @@
-import { motion } from 'motion/react';
-import { Linkedin, Github, Twitter, Mail, MessageCircle } from 'lucide-react';
-import logo from "../../assets/logo.png";
-;
+"use client";
 
+import { Facebook, Instagram, Linkedin, Twitter, Github, Mail, Phone } from 'lucide-react';
 
 export function Footer() {
   const currentYear = new Date().getFullYear();
 
-  const footerLinks = {
-    Company: [
-      { name: 'About Us', href: '#founders' },
-      { name: 'Services', href: '#services' },
-      { name: 'Portfolio', href: '#portfolio' },
-      { name: 'Pricing', href: '#pricing' },
-    ],
-    Services: [
-      { name: 'Web Development', href: '#services' },
-      { name: 'App Development', href: '#services' },
-      { name: 'Digital Marketing', href: '#services' },
-      { name: 'Consulting', href: '#services' },
-    ],
-    Contact: [
-      { name: 'WhatsApp', href: 'https://wa.me/923369871278', external: true },
-      { name: 'Email Us', href: 'mailto:hello@auradept.com' },
-      { name: 'Schedule Call', href: '#' },
-    ],
-  };
-
-  const socialLinks = [
-    { icon: <Linkedin className="w-5 h-5" />, href: '#', label: 'LinkedIn' },
-    { icon: <Github className="w-5 h-5" />, href: '#', label: 'GitHub' },
-    { icon: <Twitter className="w-5 h-5" />, href: '#', label: 'Twitter' },
-    { icon: <Mail className="w-5 h-5" />, href: 'mailto:hello@auradept.com', label: 'Email' },
-  ];
-
   return (
-    <footer className="relative bg-black border-t border-white/10">
-      {/* CTA Section */}
-      <div className="relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-r from-purple-600/10 to-blue-600/10" />
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-center"
-          >
-            <h3 className="text-3xl md:text-4xl text-white mb-4">
-              Ready to Build Your{' '}
-              <span className="bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent">
-                Aura
-              </span>
-              ?
-            </h3>
-            <p className="text-gray-400 mb-8 max-w-2xl mx-auto">
-              Let's collaborate to create something extraordinary. Message us now and let's turn
-              your vision into reality.
-            </p>
-            <a
-              href="https://wa.me/923369871278"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-purple-600 to-blue-600 text-white rounded-full hover:from-purple-500 hover:to-blue-500 transition-all"
-            >
-              <MessageCircle className="w-5 h-5" />
-              <span>Start Your Project</span>
-            </a>
-          </motion.div>
-        </div>
-      </div>
+    <footer className="bg-[#020617] border-t border-white/5 pt-16 pb-8 relative overflow-hidden">
+        
+        {/* Background Gradients */}
+        <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-purple-900/5 rounded-full blur-[120px] pointer-events-none" />
+        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-cyan-900/5 rounded-full blur-[120px] pointer-events-none" />
 
-      {/* Main Footer */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-12">
-          {/* Brand */}
-          <div className="col-span-2 md:col-span-1">
-            <div className="flex items-center gap-3 mb-4">
-              <img src={logo} alt="Aura Dept Logo" className="w-8 h-8 object-contain" />
-              <span className="text-xl tracking-wider text-white">AURA DEPT</span>
-            </div>
-            <p className="text-gray-400 text-sm mb-6">
-              Your Brand, Your Aura. Creating digital experiences that resonate.
-            </p>
-            {/* Social Links */}
-            <div className="flex gap-4">
-              {socialLinks.map((social) => (
-                <a
-                  key={social.label}
-                  href={social.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={social.label}
-                  className="p-2 bg-white/5 hover:bg-white/10 text-gray-400 hover:text-white rounded-lg transition-all"
-                >
-                  {social.icon}
-                </a>
-              ))}
-            </div>
-          </div>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div className="grid md:grid-cols-4 gap-12 mb-16">
+                
+                {/* 1. BRAND COLUMN */}
+                <div className="col-span-1 md:col-span-1">
+                    <div className="flex items-center gap-3 mb-4">
+                        {/* 1. LOGO IMAGE (Make sure logo.png is in your public folder) */}
+                        <img 
+                            src="/logo.png" 
+                            alt="Aura Dept Logo" 
+                            className="w-10 h-10 object-contain"
+                        />
+                        <h3 className="text-xl font-bold text-white tracking-wider">AURA DEPT</h3>
+                    </div>
+                    <p className="text-gray-400 text-sm mb-6 leading-relaxed">
+                        Your Brand, Your Aura. Creating digital experiences that resonate.
+                    </p>
+                    
+                    {/* Social Icons */}
+                    <div className="flex gap-3">
+                        <a href="#" className="p-2 rounded-lg bg-white/5 text-gray-400 hover:bg-[#0A66C2]/20 hover:text-[#0A66C2] transition-all"><Linkedin className="w-4 h-4" /></a>
+                        <a href="#" className="p-2 rounded-lg bg-white/5 text-gray-400 hover:bg-white/20 hover:text-white transition-all"><Github className="w-4 h-4" /></a>
+                        <a href="#" className="p-2 rounded-lg bg-white/5 text-gray-400 hover:bg-[#1DA1F2]/20 hover:text-[#1DA1F2] transition-all"><Twitter className="w-4 h-4" /></a>
+                        <a href="mailto:tahseenalam345@gmail.com" className="p-2 rounded-lg bg-white/5 text-gray-400 hover:bg-purple-500/20 hover:text-purple-400 transition-all"><Mail className="w-4 h-4" /></a>
+                    </div>
+                </div>
 
-          {/* Links Columns */}
-          {Object.entries(footerLinks).map(([title, links]) => (
-            <div key={title}>
-              <h4 className="text-white mb-4">{title}</h4>
-              <ul className="space-y-2">
-                {links.map((link) => (
-                  <li key={link.name}>
-                    <a
-                      href={link.href}
-                      {...(link.external && {
-                        target: '_blank',
-                        rel: 'noopener noreferrer',
-                      })}
-                      className="text-gray-400 hover:text-white text-sm transition-colors"
-                    >
-                      {link.name}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
-        </div>
+                {/* 2. COMPANY LINKS */}
+                <div>
+                    <h4 className="text-white font-bold mb-6">Company</h4>
+                    <ul className="space-y-3 text-sm text-gray-400">
+                        <li><a href="#" className="hover:text-cyan-400 transition-colors">About Us</a></li>
+                        <li><a href="#services" className="hover:text-cyan-400 transition-colors">Services</a></li>
+                        <li><a href="#portfolio" className="hover:text-cyan-400 transition-colors">Portfolio</a></li>
+                        <li><a href="#pricing" className="hover:text-cyan-400 transition-colors">Pricing</a></li>
+                    </ul>
+                </div>
 
-        {/* Bottom Bar */}
-        <div className="pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-gray-400 text-sm">
-            © {currentYear} Aura Dept. All rights reserved.
-          </p>
-          <div className="flex gap-6 text-sm">
-            <a href="#" className="text-gray-400 hover:text-white transition-colors">
-              Privacy Policy
-            </a>
-            <a href="#" className="text-gray-400 hover:text-white transition-colors">
-              Terms of Service
-            </a>
-          </div>
+                {/* 3. SERVICES LINKS */}
+                <div>
+                    <h4 className="text-white font-bold mb-6">Services</h4>
+                    <ul className="space-y-3 text-sm text-gray-400">
+                        <li><a href="#" className="hover:text-purple-400 transition-colors">Web Development</a></li>
+                        <li><a href="#" className="hover:text-purple-400 transition-colors">App Development</a></li>
+                        <li><a href="#" className="hover:text-purple-400 transition-colors">Digital Marketing</a></li>
+                        <li><a href="#" className="hover:text-purple-400 transition-colors">Consulting</a></li>
+                    </ul>
+                </div>
+
+                {/* 4. CONTACT LINKS */}
+                <div>
+                    <h4 className="text-white font-bold mb-6">Contact</h4>
+                    <ul className="space-y-3 text-sm text-gray-400">
+                        <li>
+                            <a href="https://wa.me/923369871278" target="_blank" rel="noopener noreferrer" className="hover:text-green-400 transition-colors">
+                                WhatsApp
+                            </a>
+                        </li>
+                        <li>
+                            <a href="mailto:tahseenalam345@gmail.com" className="hover:text-cyan-400 transition-colors">
+                                Email Us
+                            </a>
+                        </li>
+                        <li>
+                            <a href="tel:+923369871278" className="hover:text-pink-400 transition-colors">
+                                Schedule Call
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            {/* BOTTOM BAR */}
+            <div className="pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-4 text-center md:text-left">
+                
+                {/* Copyright */}
+                <p className="text-gray-600 text-xs">
+                    &copy; {currentYear} Aura Dept. All rights reserved.
+                </p>
+                
+                {/* Designed By Signature */}
+                <p className="text-gray-500 text-xs font-medium tracking-wide">
+                    Designed by <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-500 font-bold">Aura Dept Official</span>
+                </p>
+
+                {/* Legal Links */}
+                <div className="flex gap-6 text-xs text-gray-600">
+                    <a href="#" className="hover:text-gray-400 transition-colors">Privacy Policy</a>
+                    <a href="#" className="hover:text-gray-400 transition-colors">Terms of Service</a>
+                </div>
+            </div>
         </div>
-      </div>
     </footer>
   );
 }

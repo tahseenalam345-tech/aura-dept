@@ -6,4 +6,16 @@
 @theme {
   /* Custom gradients for radial effects */
   --gradient-radial: radial-gradient(var(--tw-gradient-stops));
+
+  /* --- CUSTOM ANIMATION: SHINE (For Founder Cards) --- */
+  --animate-shine: shine 1.5s infinite linear;
+
+  @keyframes shine {
+    0% {
+      transform: translateX(-100%);
+    }
+    100% {
+      transform: translateX(100%);
+    }
+  }
 }
