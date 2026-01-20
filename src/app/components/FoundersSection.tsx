@@ -69,7 +69,7 @@ export function FoundersSection() {
       role: "Co-Founder & Creative Director",
       quote: "Design is the silent ambassador of your brand. I specialize in brand identity and immersive UI experiences.",
       image: "/saadpic.png",    
-      tags: ["UI/UX", "Strategy", "Visuals"],
+      tags: ["UI/UX", "Project manager", "Web Developer"],
       color: "text-purple-400",   
       glowColor: "bg-purple-500", 
     },
