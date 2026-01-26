@@ -5,21 +5,19 @@ import { ExternalLink, ArrowUpRight, Globe } from 'lucide-react';
 
 // --- PROJECT DATA ---
 const projects = [
- {
+  {
     title: "Muhammad Tahseen - Portfolio",
-    category: "Personal Brand", // Added missing category
+    category: "Personal Brand",
     description: "My personal developer portfolio showcasing full-stack capabilities, modern UI/UX design, and professional experience.",
     tech: ["Next.js", "Tailwind CSS", "Framer Motion"],
     link: "https://tahseen-portfolio.vercel.app/",
-    image: "/portfolio-thumb.png",
-    type: "iframe", // Using image type for your main portfolio to ensure it looks clean
-    color: "pink"  // Added missing color for styling
+    // No 'image' provided here, so it will auto-screenshot this link
+    color: "pink"
   },
   {
     title: "Aura Taste",
     category: "Web Application",
     description: "Premium food ordering interface with immersive visuals.",
-    type: "iframe",
     link: "https://aura-taste.vercel.app/",
     tech: ["Next.js", "Tailwind", "Framer Motion"],
     color: "cyan"
@@ -28,7 +26,6 @@ const projects = [
     title: "Al-Azamat Pharma",
     category: "SaaS Dashboard",
     description: "Pharmacy management system with inventory tracking.",
-    type: "iframe",
     link: "https://pharma-inventory-theta.vercel.app/",
     tech: ["React", "Node.js", "Real-time DB"],
     color: "purple"
@@ -37,7 +34,6 @@ const projects = [
     title: "AuraOS Command",
     category: "System Architecture",
     description: "Advanced operations dashboard simulating a digital OS.",
-    type: "iframe",
     link: "https://auraos-digital.vercel.app/",
     tech: ["Next.js", "Auth.js", "Dashboard UI"],
     color: "pink"
@@ -46,7 +42,6 @@ const projects = [
     title: "Aura Digital Agency",
     category: "Web Development",
     description: "High-performance agency portfolio and lead funnel.",
-    type: "iframe",
     link: "https://aura-digital-blond.vercel.app/",
     tech: ["React", "Tailwind CSS", "SEO"],
     color: "cyan"
@@ -55,7 +50,6 @@ const projects = [
     title: "Tech Gear Store",
     category: "App Development",
     description: "Native mobile e-commerce app for tech accessories.",
-    type: "iframe",
     link: "https://ecomerce-apps.web.app/",
     tech: ["Flutter", "Firebase", "Android/iOS"],
     color: "purple"
@@ -64,7 +58,6 @@ const projects = [
     title: "FitTrack Pro",
     category: "App Development",
     description: "Personal workout planning and monitoring application.",
-    type: "iframe",
     link: "https://fitnesssd-12wa.web.app/",
     tech: ["React Native", "Firebase", "Health API"],
     color: "pink"
@@ -73,7 +66,6 @@ const projects = [
     title: "Urban Eats Delivery",
     category: "Full Stack Dev",
     description: "Complete food delivery platform with user auth.",
-    type: "iframe",
     link: "https://mern-food-app-frontend-0meh.onrender.com/",
     tech: ["MongoDB", "Express", "React", "Node"],
     color: "cyan"
@@ -82,7 +74,6 @@ const projects = [
     title: "Project Blueprint",
     category: "Web Application",
     description: "Interactive project planning and visualization tool.",
-    type: "iframe",
     link: "https://auradept-ang.vercel.app/",
     tech: ["Angular", "TypeScript", "Vercel"],
     color: "purple"
@@ -91,7 +82,7 @@ const projects = [
     title: "Nexus Growth Campaign",
     category: "Digital Marketing",
     description: "Strategic SEO campaign boosting traffic by 300%.",
-    type: "image",
+    // This has a custom image, so it will use this instead of a screenshot
     image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=800&auto=format&fit=crop",
     tech: ["SEO", "Google Ads", "Analytics"],
     link: "#",
@@ -101,7 +92,6 @@ const projects = [
     title: "Visionary AI",
     category: "AI Integration",
     description: "Content generation tool powered by OpenAI API.",
-    type: "image",
     image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?q=80&w=800&auto=format&fit=crop",
     tech: ["OpenAI API", "Python", "Next.js"],
     link: "#",
@@ -117,12 +107,17 @@ const tagStyles: any = {
 };
 
 const borderStyles: any = {
-    cyan: "hover:border-cyan-500/50 hover:shadow-cyan-900/20",
-    purple: "hover:border-purple-500/50 hover:shadow-purple-900/20",
-    pink: "hover:border-pink-500/50 hover:shadow-pink-900/20"
+  cyan: "hover:border-cyan-500/50 hover:shadow-cyan-900/20",
+  purple: "hover:border-purple-500/50 hover:shadow-purple-900/20",
+  pink: "hover:border-pink-500/50 hover:shadow-pink-900/20"
 };
 
 const ProjectCard = ({ project, index }: any) => {
+  // LOGIC: Use custom image if provided; otherwise, generate screenshot from link
+  const imageUrl = project.image 
+    ? project.image 
+    : `https://api.microlink.io/?url=${encodeURIComponent(project.link)}&screenshot=true&meta=false&embed=screenshot.url`;
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 30 }}
@@ -132,27 +127,21 @@ const ProjectCard = ({ project, index }: any) => {
       className={`group relative rounded-[2rem] bg-[#0B1221]/80 backdrop-blur-md border border-white/10 overflow-hidden flex flex-col h-[420px] transition-all duration-500 ${borderStyles[project.color]}`}
     >
 
-      {/* --- LIVE PREVIEW WINDOW --- */}
+      {/* --- PREVIEW WINDOW (Screenshots Only) --- */}
       <div className="relative h-48 flex-shrink-0 bg-gray-900 overflow-hidden border-b border-white/5">
-        {project.type === 'iframe' ? (
-          <iframe
-            src={project.link}
-            title={project.title}
-            loading="lazy"
-            className="absolute top-0 left-0 w-[400%] h-[400%] scale-[0.25] origin-top-left pointer-events-none border-0 bg-white"
-          />
-        ) : (
-          <img
-            src={project.image}
-            alt={project.title}
-            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
-          />
-        )}
+        <img
+          src={imageUrl}
+          alt={project.title}
+          loading="lazy"
+          className="w-full h-full object-cover object-top group-hover:scale-110 transition-transform duration-700"
+        />
+        
         <div className="absolute top-4 left-4 z-20 flex items-center gap-2">
           <span className="px-3 py-1 text-[10px] font-bold tracking-widest uppercase bg-black/80 backdrop-blur-md border border-white/20 rounded-full text-white shadow-xl">
             {project.category}
           </span>
-          {project.type === 'iframe' && (
+          {/* Keep "Live" badge only if it's a real link, not a placeholder "#" */}
+          {project.link && project.link !== "#" && (
             <span className="flex items-center gap-1 px-2 py-1 text-[10px] font-bold uppercase bg-red-600 backdrop-blur-md rounded-full text-white animate-pulse shadow-lg">
               <span className="w-1.5 h-1.5 bg-white rounded-full" /> Live
             </span>
