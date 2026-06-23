@@ -15,6 +15,24 @@ const projects = [
     color: "pink"
   },
   {
+    title: "AURA-X Watches",
+    category: "E-Commerce",
+    description: "Premium e-commerce platform for high-quality watches and luxury accessories.",
+    type: "iframe",
+    link: "https://www.aurax-watches.com/",
+    tech: ["Next.js", "Tailwind", "Payment API"],
+    color: "purple"
+  },
+  {
+    title: "Medi Book Clinic Portal",
+    category: "Healthcare Platform",
+    description: "Online doctor appointment booking system and digital clinic management.",
+    type: "iframe",
+    link: "https://clinic-medibook.vercel.app/", // ⚠️ See note below
+    tech: ["React", "Booking API", "Tailwind"],
+    color: "cyan"
+  }
+  {
     title: "Aura Taste",
     category: "Web Application",
     description: "Premium food ordering interface with immersive visuals.",
