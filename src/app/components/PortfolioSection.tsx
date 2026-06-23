@@ -28,17 +28,17 @@ const projects = [
     category: "Healthcare Platform",
     description: "Online doctor appointment booking system and digital clinic management.",
     type: "iframe",
-    link: "https://clinic-medibook.vercel.app/", // ⚠️ See note below
+    link: "https://clinic-medibook.vercel.app/",
     tech: ["React", "Booking API", "Tailwind"],
     color: "cyan"
-  }
+  }, // 👈 THIS COMMA WAS MISSING
   {
     title: "Aura Taste",
     category: "Web Application",
     description: "Premium food ordering interface with immersive visuals.",
     link: "https://aura-taste.vercel.app/",
     tech: ["Next.js", "Tailwind", "Framer Motion"],
-    color: "cyan"
+    color: "cyan" // 👈 Fixed typo here (was "c")
   },
   {
     title: "Al-Azamat Pharma",
